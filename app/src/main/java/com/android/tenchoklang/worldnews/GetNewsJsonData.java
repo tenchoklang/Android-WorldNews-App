@@ -54,7 +54,7 @@ class GetNewsJsonData extends AsyncTask<String, Void, List<NewsDetail>> implemen
         //super.onPostExecute(newsDetails);
         Log.d(TAG, "onPostExecute: Starts");
         if(mCallBack!= null){
-            //this is a callback to the MainActivity onDataAvailable
+            //this is a callback to the mainactivity onDataAvailable
             //passing it the List<NewsDetail> and download status
             mCallBack.onDataAvailable(mNewsList, DownloadStatus.OK);
         }
