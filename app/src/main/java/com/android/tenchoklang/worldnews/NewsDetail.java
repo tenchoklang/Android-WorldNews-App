@@ -49,4 +49,17 @@ class NewsDetail {
     public String getDatePublished() { return datePublished;}
     public void setDatePublished(String datePublished) { this.datePublished = datePublished; }
 
+    @Override
+    public String toString() {
+        return "NewsDetail{" +
+                "id='" + id + '\'' +
+                ", outlet='" + outlet + '\'' +
+                ", author='" + author + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", url='" + url + '\'' +
+                ", urlToImage='" + urlToImage + '\'' +
+                ", datePublished='" + datePublished + '\'' +
+                '}';
+    }
 }

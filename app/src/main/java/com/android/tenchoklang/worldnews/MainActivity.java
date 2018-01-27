@@ -1,16 +1,35 @@
 package com.android.tenchoklang.worldnews;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements GetNewsJsonData.OnDataAvailable {
+
+
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        GetRawData getRawData = new GetRawData();
-        getRawData.execute("https://newsapi.org/v2/top-headlines?sources=abc-news&apiKey=6306fbe477654ab8929fa29582a45127");
+        GetNewsJsonData getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/top-headlines", true, "us");
+        getNewsJsonData.execute("trump");
+    }
+
+
+    @Override
+    public void onDataAvailable(List<NewsDetail> newsDetails, DownloadStatus status) {
+        Log.d(TAG, "onDataAvailable: Starts");
+        if(status == DownloadStatus.OK){
+            Log.d(TAG, "onDataAvailable: ");
+        }else{
+            Log.e(TAG, "onDataAvailable: Failed with status " + status);
+        }
+
+        Log.d(TAG, "onDataAvailable: Ends");
     }
 }

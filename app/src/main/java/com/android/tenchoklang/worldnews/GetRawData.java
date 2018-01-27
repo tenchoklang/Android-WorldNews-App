@@ -19,37 +19,50 @@ enum DownloadStatus {IDLE, PROCESSING, NOT_INITIALIZED, FAILED_OR_EMPTY, OK}
 class GetRawData extends AsyncTask<String, Void, String>{
     private static final String TAG = "GetRawData";
     private DownloadStatus mDownloadStatus;//refers to the ENUM
-    //private final OnDownloadComplete mCallBack;
+    private final OnDownloadComplete mCallBack;
 
     interface OnDownloadComplete{//used for callback in GetNewsJsonData
         void onDownloadComplete(String data, DownloadStatus status);
     }
 
-    public GetRawData() {
-        //this.mCallback = mCallback;
+    public GetRawData(OnDownloadComplete callBack) {
+        this.mCallBack = callBack;
         mDownloadStatus = DownloadStatus.IDLE;
     }
 
+    //runs together on the GetNewsJsonData thread
+    void runInSameThread(String newsApiUrl){
+        Log.d(TAG, "runInSameThread: Starts");
+        if(mCallBack != null){
+            mCallBack.onDownloadComplete(doInBackground(newsApiUrl), mDownloadStatus);
+        }
+        Log.d(TAG, "runInSameThread: Ends");
+    }
+
+    //This is not used when this class is running on the same thread as another class
+    //used only when this is running on its own thread
     @Override
     protected void onPostExecute(String s) {
         Log.d(TAG, "onPostExecute: " + s);
     }
 
+
+    //newApiUrl: is the final build up URL received from the GetNewsJsonData class
     @Override
-    protected String doInBackground(String... NewsApiURL) {
+    protected String doInBackground(String... newsApiUrl) {
 
 
         HttpURLConnection connection = null;
         BufferedReader bufferedReader = null;
 
-        if(NewsApiURL == null){//
+        if(newsApiUrl == null){//
             Log.d(TAG, "doInBackground: NewsApiUrl is null");
             mDownloadStatus = DownloadStatus.NOT_INITIALIZED;
             return null;
         }
 
         try{
-            URL url = new URL(NewsApiURL[0]);
+            URL url = new URL(newsApiUrl[0]);
             connection = (HttpURLConnection) url.openConnection();
             int responseCode = connection.getResponseCode();
             Log.d(TAG, "doInBackground: Response code = " + responseCode);
