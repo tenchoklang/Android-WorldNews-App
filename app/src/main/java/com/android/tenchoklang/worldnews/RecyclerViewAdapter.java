@@ -33,10 +33,10 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.NewsD
         public NewsDetailViewHolder(View viewForRecycler) {//itemView is the inflatedLayout
             super(viewForRecycler);
             Log.d(TAG, "FlickrImageViewHolder: Constructor called");
-            //this.title = (TextView) viewForRecycler.findViewById(R.id.title);
-            //this.datePublished = (TextView) viewForRecycler.findViewById(R.id.datePublished);
+            this.title = (TextView) viewForRecycler.findViewById(R.id.title);
+            this.datePublished = (TextView) viewForRecycler.findViewById(R.id.datePublished);
             this.thumbnail = (ImageView) viewForRecycler.findViewById(R.id.thumbnail);
-            //this.description = (TextView) viewForRecycler.findViewById(R.id.description);
+            this.description = (TextView) viewForRecycler.findViewById(R.id.description);
         }
     }
 
@@ -68,10 +68,10 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.NewsD
         Log.d(TAG, "onBindViewHolder: New View Data Requested");
         NewsDetail  newNewsDetail= newsDetailList.get(position);
 
-       // holder.title.setText(newNewsDetail.getTitle());
-       // holder.datePublished.setText(newNewsDetail.getDatePublished());
+        holder.title.setText(newNewsDetail.getTitle());
+        holder.datePublished.setText("Date: " +newNewsDetail.getDatePublished());
         Picasso.with(context).load(newNewsDetail.getUrlToImage()).placeholder(R.drawable.placeholder).into(holder.thumbnail);
-        //holder.description.setText(newNewsDetail.getDescription());
+        holder.description.setText(newNewsDetail.getDescription());
 
         Log.d(TAG, "onBindViewHolder: " + newNewsDetail.getTitle() + "-->" + position);
 
