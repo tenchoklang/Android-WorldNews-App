@@ -25,6 +25,7 @@
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.android.tenchoklang.worldnews.MainActivity" />
+
     </application>
 
 </manifest>

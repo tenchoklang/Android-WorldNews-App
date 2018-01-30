@@ -68,10 +68,28 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
         Log.d(TAG, "onDataAvailable: Ends");
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actionbar_actions, menu);
+
+//        MenuItem menuItem = menu.findItem(R.id.app_bar_search);
+//        SearchView searchView = (SearchView) menuItem.getActionView();
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                return false;
+//            }
+//        });
+
+
         return true;
     }
 
@@ -90,5 +108,6 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
 
         }
     }
+
 }
 
