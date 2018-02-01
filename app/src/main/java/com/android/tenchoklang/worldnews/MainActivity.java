@@ -3,7 +3,9 @@
 package com.android.tenchoklang.worldnews;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,7 +23,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements GetNewsJsonData.OnDataAvailable {
 
 
-    public static final String test = "test";
+    static final String FLICKR_QUERY = "SEARCH_QUERY";//used as the "key" for shared preferences
 
     private static final String TAG = "MainActivity";
     private RecyclerViewAdapter recyclerViewAdapter;
@@ -49,31 +51,37 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
         recyclerViewAdapter = new RecyclerViewAdapter(this, new ArrayList<NewsDetail>());
         recyclerView.setAdapter(recyclerViewAdapter);
 
-        GetNewsJsonData getNewsJsonData;
-        getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/top-headlines", true, "us");
-        getNewsJsonData.execute("trump");
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String queryResult = sharedPreferences.getString(MainActivity.FLICKR_QUERY, "");//if no values return "" empty string
+        //if query result not empty
+        if(queryResult.length() > 0){
+            GetNewsJsonData getNewsJsonData;
+            getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/top-headlines", true, "us");
+            getNewsJsonData.execute(queryResult);
+        }
+
 
 //            Intent intent = getIntent();
 //            GetNewsJsonData getNewsJsonDataTest = new GetNewsJsonData(this,"https://newsapi.org/v2/top-headlines", true, "us");
 //            Bundle extras = getIntent().getExtras();
 //            getNewsJsonDataTest.execute(extras.getString("test"));
 
-            String newString;
-            if (savedInstanceState == null) {
-                Bundle extras = getIntent().getExtras();
-                if(extras == null) {
-                    newString= null;
-                } else {
-                    newString= extras.getString("test");
-                    getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/everything", true, "us");
-                    getNewsJsonData.execute(newString);
-                }
-            } else {
-                newString= (String) savedInstanceState.getSerializable("test");
-                Log.d(TAG, "onCreate: HERE IS THE NEWSTRING --->" + newString);
-                getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/everything", true, "us");
-                getNewsJsonData.execute(newString);
-            }
+//            String newString;
+//            if (savedInstanceState == null) {
+//                Bundle extras = getIntent().getExtras();
+//                if(extras == null) {
+//                    newString= null;
+//                } else {
+//                    newString= extras.getString("test");
+//                    getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/everything", true, "us");
+//                    getNewsJsonData.execute(newString);
+//                }
+//            } else {
+//                newString= (String) savedInstanceState.getSerializable("test");
+//                Log.d(TAG, "onCreate: HERE IS THE NEWSTRING --->" + newString);
+//                getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/everything", true, "us");
+//                getNewsJsonData.execute(newString);
+//            }
 
 
 
