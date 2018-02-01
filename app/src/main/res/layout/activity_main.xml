@@ -6,10 +6,19 @@
     android:layout_height="match_parent"
     tools:context="com.android.tenchoklang.worldnews.MainActivity">
 
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/navigation" />
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
+
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"

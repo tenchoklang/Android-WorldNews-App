@@ -58,6 +58,10 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
             GetNewsJsonData getNewsJsonData;
             getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/top-headlines", true, "us");
             getNewsJsonData.execute(queryResult);
+        }else{
+            GetNewsJsonData getNewsJsonData;
+            getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/top-headlines", true, "us");
+            getNewsJsonData.execute("trump");
         }
 
 

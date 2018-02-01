@@ -41,7 +41,7 @@ public class SearchActivity extends AppCompatActivity {
         // Assumes current activity is the searchable activity
         SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
         searchView.setSearchableInfo(searchableInfo);
-        searchView.setIconified(false); // Do not iconify the widget; expand it by default
+        searchView.setIconified(false); // Do not iconify the widget; expand it by defaul
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -61,20 +61,20 @@ public class SearchActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        setIntent(intent);
-        handleIntent(intent);
-    }
-
-    void handleIntent(Intent intent){
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            Log.d(TAG, "handleIntent: "+ query);
-
-            Intent intentSearch = new Intent(this, MainActivity.class);
-            intentSearch.putExtra("test", query);
-            startActivity(intentSearch);
-        }
-    }
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        setIntent(intent);
+//        handleIntent(intent);
+//    }
+//
+//    void handleIntent(Intent intent){
+//        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+//            String query = intent.getStringExtra(SearchManager.QUERY);
+//            Log.d(TAG, "handleIntent: "+ query);
+//
+//            Intent intentSearch = new Intent(this, MainActivity.class);
+//            intentSearch.putExtra("test", query);
+//            startActivity(intentSearch);
+//        }
+//    }
 }

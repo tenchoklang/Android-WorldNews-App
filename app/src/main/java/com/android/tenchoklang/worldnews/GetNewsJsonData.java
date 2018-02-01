@@ -73,6 +73,8 @@ class GetNewsJsonData extends AsyncTask<String, Void, List<NewsDetail>> implemen
         return null;
     }
 
+    //remember to create a condition here to filter out what URL to use and what not to use
+    //check for null
     private String createURL(boolean mode, String country, String searchQuery){
         Log.d(TAG, "createURL: Starts");
 
@@ -112,7 +114,9 @@ class GetNewsJsonData extends AsyncTask<String, Void, List<NewsDetail>> implemen
                     String description = jsonArticle.getString("description");
                     String url = jsonArticle.getString("url");
                     String urlToImage = jsonArticle.getString("urlToImage");
-                    String publishedAt = jsonArticle.getString("publishedAt");
+
+                    String publishedAt = jsonArticle.getString("publishedAt");//date published
+                    publishedAt = publishedAt.substring(0,publishedAt.indexOf("T"));
 
                     NewsDetail newsObject = new NewsDetail(id, name, author, title, description, url, urlToImage, publishedAt);
                     mNewsList.add(newsObject);

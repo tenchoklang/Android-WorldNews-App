@@ -14,5 +14,5 @@
         android:id="@+id/search"
         android:icon="@drawable/ic_search_white_24dp"
         android:title="Item"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 </menu>
