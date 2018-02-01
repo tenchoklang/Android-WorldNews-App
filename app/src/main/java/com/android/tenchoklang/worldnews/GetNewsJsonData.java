@@ -82,7 +82,7 @@ class GetNewsJsonData extends AsyncTask<String, Void, List<NewsDetail>> implemen
                 .build().toString());
         return Uri.parse(baseURL).buildUpon()
                 .appendQueryParameter("country", country)
-                //.appendQueryParameter("q", searchQuery)
+                .appendQueryParameter("q", searchQuery)
                 .appendQueryParameter("apiKey", apiKey)
                 .build().toString();//.build() = constructs a uri with current attributes
     }

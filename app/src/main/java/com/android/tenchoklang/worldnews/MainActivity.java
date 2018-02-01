@@ -2,6 +2,7 @@
 
 package com.android.tenchoklang.worldnews;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements GetNewsJsonData.OnDataAvailable {
 
+
+    public static final String test = "test";
 
     private static final String TAG = "MainActivity";
     private RecyclerViewAdapter recyclerViewAdapter;
@@ -46,8 +49,31 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
         recyclerViewAdapter = new RecyclerViewAdapter(this, new ArrayList<NewsDetail>());
         recyclerView.setAdapter(recyclerViewAdapter);
 
-        GetNewsJsonData getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/top-headlines", true, "us");
+        GetNewsJsonData getNewsJsonData;
+        getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/top-headlines", true, "us");
         getNewsJsonData.execute("trump");
+
+//            Intent intent = getIntent();
+//            GetNewsJsonData getNewsJsonDataTest = new GetNewsJsonData(this,"https://newsapi.org/v2/top-headlines", true, "us");
+//            Bundle extras = getIntent().getExtras();
+//            getNewsJsonDataTest.execute(extras.getString("test"));
+
+            String newString;
+            if (savedInstanceState == null) {
+                Bundle extras = getIntent().getExtras();
+                if(extras == null) {
+                    newString= null;
+                } else {
+                    newString= extras.getString("test");
+                    getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/everything", true, "us");
+                    getNewsJsonData.execute(newString);
+                }
+            } else {
+                newString= (String) savedInstanceState.getSerializable("test");
+                Log.d(TAG, "onCreate: HERE IS THE NEWSTRING --->" + newString);
+                getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/everything", true, "us");
+                getNewsJsonData.execute(newString);
+            }
 
 
 
@@ -74,30 +100,17 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actionbar_actions, menu);
 
-//        MenuItem menuItem = menu.findItem(R.id.app_bar_search);
-//        SearchView searchView = (SearchView) menuItem.getActionView();
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                return false;
-//            }
-//        });
-
-
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.app_bar_search:
+            case R.id.search:
                 Log.d(TAG, "onOptionsItemSelected: App bar search clicked");
+                Intent intent = new Intent(this, SearchActivity.class);
+                startActivity(intent);
                 return true;
 
 
@@ -108,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
 
         }
     }
+
+
 
 }
 
