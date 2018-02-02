@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements GetNewsJsonData.OnDataAvailable {
 
 
-    static final String FLICKR_QUERY = "SEARCH_QUERY";//used as the "key" for shared preferences
+    static final String SEARCH_QUERY = "SEARCH_QUERY";//used as the "key" for shared preferences
 
     private static final String TAG = "MainActivity";
     private RecyclerViewAdapter recyclerViewAdapter;
@@ -51,18 +52,14 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
         recyclerViewAdapter = new RecyclerViewAdapter(this, new ArrayList<NewsDetail>());
         recyclerView.setAdapter(recyclerViewAdapter);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String queryResult = sharedPreferences.getString(MainActivity.FLICKR_QUERY, "");//if no values return "" empty string
+
         //if query result not empty
-        if(queryResult.length() > 0){
-            GetNewsJsonData getNewsJsonData;
-            getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/top-headlines", true, "us");
-            getNewsJsonData.execute(queryResult);
-        }else{
-            GetNewsJsonData getNewsJsonData;
-            getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/top-headlines", true, "us");
-            getNewsJsonData.execute("trump");
-        }
+        // if(queryResult.length() > 0){
+//        }else{
+//            GetNewsJsonData getNewsJsonData;
+//            getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/top-headlines", true, "us");
+//            getNewsJsonData.execute("trump");
+//        }
 
 
 //            Intent intent = getIntent();
@@ -92,11 +89,26 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
         //https://www.nytimes.com/2018/01/26/us/politics/trump-davos-speech-fact-check.html
     }
 
+    //these methods are put into the onResume because when the activity returns back to this screen
+    //onResume will be called, not onCreate
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String queryResult = sharedPreferences.getString(MainActivity.SEARCH_QUERY, "");//if no values return "" empty string
+
+        GetNewsJsonData getNewsJsonData;
+        getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/top-headlines", true, "us");
+        getNewsJsonData.execute(queryResult);
+    }
 
     @Override
     public void onDataAvailable(List<NewsDetail> newsDetails, DownloadStatus status) {
         Log.d(TAG, "onDataAvailable: Starts");
         if(status == DownloadStatus.OK){
+            if(newsDetails.size() == 0){//if the API returns no data
+                Toast.makeText(this,"No Data :(", Toast.LENGTH_SHORT).show();
+            }
             Log.d(TAG, "onDataAvailable: Loading new data");
             recyclerViewAdapter.loadNewData(newsDetails);
         }else{

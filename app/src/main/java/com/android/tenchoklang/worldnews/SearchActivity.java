@@ -3,7 +3,6 @@ package com.android.tenchoklang.worldnews;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -28,7 +27,7 @@ public class SearchActivity extends AppCompatActivity {
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        handleIntent(getIntent());
+        //handleIntent(getIntent());
 
     }
 
@@ -47,9 +46,10 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.d(TAG, "onQueryTextSubmit: Called");
-                finish();//closes the activity and returns to what ever activity called it (MainActivity in our case)
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                sharedPreferences.edit().putString(MainActivity.FLICKR_QUERY, query).apply();
+                sharedPreferences.edit().putString(MainActivity.SEARCH_QUERY, query).apply();
+                searchView.clearFocus();//solves problem with submitting query by keyboards enter key
+                finish();//closes the activity and returns to what ever activity called it (MainActivity in our case)
                 return true;
             }
 
@@ -64,16 +64,17 @@ public class SearchActivity extends AppCompatActivity {
 //    @Override
 //    protected void onNewIntent(Intent intent) {
 //        setIntent(intent);
-//        handleIntent(intent);
+//        //handleIntent(intent);
 //    }
 //
+//    //intent to MainActivty and put the search query in intent.putExtra()
 //    void handleIntent(Intent intent){
 //        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 //            String query = intent.getStringExtra(SearchManager.QUERY);
 //            Log.d(TAG, "handleIntent: "+ query);
 //
 //            Intent intentSearch = new Intent(this, MainActivity.class);
-//            intentSearch.putExtra("test", query);
+//            intentSearch.putExtra(MainActivity.SEARCH_QUERY, query);
 //            startActivity(intentSearch);
 //        }
 //    }

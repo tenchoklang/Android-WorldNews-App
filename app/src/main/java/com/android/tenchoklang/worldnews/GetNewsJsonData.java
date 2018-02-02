@@ -78,15 +78,26 @@ class GetNewsJsonData extends AsyncTask<String, Void, List<NewsDetail>> implemen
     private String createURL(boolean mode, String country, String searchQuery){
         Log.d(TAG, "createURL: Starts");
 
-        Log.d(TAG, "createURL: returns " + Uri.parse(baseURL).buildUpon()
-                .appendQueryParameter("country", country)
-                .appendQueryParameter("q", searchQuery)
-                .build().toString());
-        return Uri.parse(baseURL).buildUpon()
-                .appendQueryParameter("country", country)
-                .appendQueryParameter("q", searchQuery)
-                .appendQueryParameter("apiKey", apiKey)
-                .build().toString();//.build() = constructs a uri with current attributes
+        if(searchQuery != ""){
+            Log.d(TAG, "createURL: returns " + Uri.parse(baseURL).buildUpon()
+                    .appendQueryParameter("country", country)
+                    .appendQueryParameter("q", searchQuery)
+                    .build().toString());
+
+            return Uri.parse(baseURL).buildUpon()
+                    .appendQueryParameter("country", country)
+                    .appendQueryParameter("q", searchQuery)
+                    .appendQueryParameter("apiKey", apiKey)
+                    .build().toString();//.build() = constructs a uri with current attributes
+        }
+        else{
+            return Uri.parse(baseURL).buildUpon()
+                    .appendQueryParameter("country", country)
+                    .appendQueryParameter("apiKey", apiKey)
+                    .build().toString();
+        }
+
+
     }
 
 
