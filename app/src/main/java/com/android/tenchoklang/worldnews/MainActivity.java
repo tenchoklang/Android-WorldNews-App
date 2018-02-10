@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +14,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -25,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
 
 
     static final String SEARCH_QUERY = "SEARCH_QUERY";//used as the "key" for shared preferences
-
+    static boolean scroll_down;
     private static final String TAG = "MainActivity";
     private RecyclerViewAdapter recyclerViewAdapter;
 
@@ -36,14 +34,16 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         //recyler view doesnt take care of handling the layouts, thats done by the layoutManager
@@ -51,6 +51,31 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
 
         recyclerViewAdapter = new RecyclerViewAdapter(this, new ArrayList<NewsDetail>());
         recyclerView.setAdapter(recyclerViewAdapter);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (scroll_down) {
+                    getSupportActionBar().hide();
+                } else {
+                    getSupportActionBar().show();
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 70) {
+                    //scroll down
+                    scroll_down = true;
+
+                } else if (dy < -5) {
+                    //scroll up
+                    scroll_down = false;
+                }
+            }
+        });
 
 
         //if query result not empty
@@ -100,6 +125,14 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
         GetNewsJsonData getNewsJsonData;
         getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/top-headlines", true, "us");
         getNewsJsonData.execute(queryResult);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        sharedPreferences.edit().putString(MainActivity.SEARCH_QUERY, "").apply();//clear the previous query
+
     }
 
     @Override

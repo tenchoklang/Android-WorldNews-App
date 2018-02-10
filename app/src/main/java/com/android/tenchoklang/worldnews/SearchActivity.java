@@ -41,6 +41,7 @@ public class SearchActivity extends AppCompatActivity {
         SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
         searchView.setSearchableInfo(searchableInfo);
         searchView.setIconified(false); // Do not iconify the widget; expand it by defaul
+        searchView.onActionViewExpanded();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

@@ -63,6 +63,7 @@ class GetNewsJsonData extends AsyncTask<String, Void, List<NewsDetail>> implemen
 
     @Override
     protected List<NewsDetail> doInBackground(String... params) {
+        Log.d(TAG, "doInBackground: Starts");
         String finalUrl = createURL(true, country, params[0]);
 
         //call GetRawData here
@@ -78,10 +79,11 @@ class GetNewsJsonData extends AsyncTask<String, Void, List<NewsDetail>> implemen
     private String createURL(boolean mode, String country, String searchQuery){
         Log.d(TAG, "createURL: Starts");
 
-        if(searchQuery != ""){
+        if(!searchQuery.equals("")){
             Log.d(TAG, "createURL: returns " + Uri.parse(baseURL).buildUpon()
                     .appendQueryParameter("country", country)
                     .appendQueryParameter("q", searchQuery)
+                    .appendQueryParameter("apiKey", apiKey)
                     .build().toString());
 
             return Uri.parse(baseURL).buildUpon()
@@ -91,6 +93,11 @@ class GetNewsJsonData extends AsyncTask<String, Void, List<NewsDetail>> implemen
                     .build().toString();//.build() = constructs a uri with current attributes
         }
         else{
+            Log.d(TAG, "createURL: THERE IS NO QUERY");
+            Log.d(TAG, "createURL: returns " + Uri.parse(baseURL).buildUpon()
+                    .appendQueryParameter("country", country)
+                    .appendQueryParameter("apiKey", apiKey)
+                    .build().toString());
             return Uri.parse(baseURL).buildUpon()
                     .appendQueryParameter("country", country)
                     .appendQueryParameter("apiKey", apiKey)
