@@ -11,63 +11,60 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="match_parent"
             android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tablayout"
             android:layout_width="match_parent"
-            android:layout_height="59dp"
+            android:layout_height="match_parent"
             app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/tab_selected"
             app:tabTextColor="@color/tab_selector">
 
             <android.support.design.widget.TabItem
-                android:id="@+id/tabItem3"
+                android:id="@+id/headlines"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:icon="@drawable/ic_trending_up_black_24dp"
                 android:text="Headline" />
 
             <android.support.design.widget.TabItem
+                android:id="@+id/trump"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:icon="@drawable/ic_accessibility_black_24dp"
                 android:text="Trump" />
 
             <android.support.design.widget.TabItem
-                android:id="@+id/tabItem2"
+                android:id="@+id/politics"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:icon="@drawable/ic_dashboard_black_24dp"
                 android:text="Politics" />
 
             <android.support.design.widget.TabItem
-                android:id="@+id/tabItem"
+                android:id="@+id/sports"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:icon="@drawable/ic_trending_up_black_24dp"
                 android:text="Sports" />
 
             <android.support.design.widget.TabItem
-                android:id="@+id/tabItem4"
+                android:id="@+id/movies"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:icon="@drawable/placeholder"
                 android:text="Movies" />
 
             <android.support.design.widget.TabItem
+                android:id="@+id/celebrities"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Celebrity" />
 
             <android.support.design.widget.TabItem
+                android:id="@+id/random"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Random" />
@@ -76,6 +73,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <include
+        layout="@layout/content_main"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </android.support.design.widget.CoordinatorLayout>

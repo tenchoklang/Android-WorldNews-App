@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,20 +38,14 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
-
+        initTabListener();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         //recyler view doesnt take care of handling the layouts, thats done by the layoutManager
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         recyclerViewAdapter = new RecyclerViewAdapter(this, new ArrayList<NewsDetail>());
         recyclerView.setAdapter(recyclerViewAdapter);
+
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -78,39 +73,6 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
         });
 
 
-        //if query result not empty
-        // if(queryResult.length() > 0){
-//        }else{
-//            GetNewsJsonData getNewsJsonData;
-//            getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/top-headlines", true, "us");
-//            getNewsJsonData.execute("trump");
-//        }
-
-
-//            Intent intent = getIntent();
-//            GetNewsJsonData getNewsJsonDataTest = new GetNewsJsonData(this,"https://newsapi.org/v2/top-headlines", true, "us");
-//            Bundle extras = getIntent().getExtras();
-//            getNewsJsonDataTest.execute(extras.getString("test"));
-
-//            String newString;
-//            if (savedInstanceState == null) {
-//                Bundle extras = getIntent().getExtras();
-//                if(extras == null) {
-//                    newString= null;
-//                } else {
-//                    newString= extras.getString("test");
-//                    getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/everything", true, "us");
-//                    getNewsJsonData.execute(newString);
-//                }
-//            } else {
-//                newString= (String) savedInstanceState.getSerializable("test");
-//                Log.d(TAG, "onCreate: HERE IS THE NEWSTRING --->" + newString);
-//                getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/everything", true, "us");
-//                getNewsJsonData.execute(newString);
-//            }
-
-
-
         //https://www.nytimes.com/2018/01/26/us/politics/trump-davos-speech-fact-check.html
     }
 
@@ -123,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
         String queryResult = sharedPreferences.getString(MainActivity.SEARCH_QUERY, "");//if no values return "" empty string
 
         GetNewsJsonData getNewsJsonData;
-        getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/top-headlines", true, "us");
+        getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/", true, "us");
         getNewsJsonData.execute(queryResult);
     }
 
@@ -132,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
         super.onStop();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         sharedPreferences.edit().putString(MainActivity.SEARCH_QUERY, "").apply();//clear the previous query
-
     }
 
     @Override
@@ -170,16 +131,54 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
                 startActivity(intent);
                 return true;
 
-
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
-
         }
     }
 
+    private void initTabListener(){
+        TabLayout tabLayout = findViewById(R.id.tablayout);
 
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Log.d(TAG, "onTabSelected: " + tab.getText());
+                GetNewsJsonData getNewsJsonData;
+                switch (tab.getPosition()){
+                    case 0://headlines
+                        getNewsJsonData = new GetNewsJsonData(MainActivity.this,"https://newsapi.org/v2/", true, "us");
+                        getNewsJsonData.execute("");
+                        break;
+                    case 1:
+                        getNewsJsonData = new GetNewsJsonData(MainActivity.this,"https://newsapi.org/v2/", true, "us");
+                        getNewsJsonData.execute(tab.getText().toString());
+                        break;
+                    case 2://headlines
+                        getNewsJsonData = new GetNewsJsonData(MainActivity.this,"https://newsapi.org/v2/", true, "us");
+                        getNewsJsonData.execute(tab.getText().toString());
+                        break;
+                    case 3:
+                        getNewsJsonData = new GetNewsJsonData(MainActivity.this,"https://newsapi.org/v2/", true, "us");
+                        getNewsJsonData.execute(tab.getText().toString());
+                        break;
+
+                }
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                Log.d(TAG, "onTabUnselected: " + tab.getText());
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                Log.d(TAG, "onTabReselected: " + tab.getText());
+            }
+        });
+    }
 
 }
 

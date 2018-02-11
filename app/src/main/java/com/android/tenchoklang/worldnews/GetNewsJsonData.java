@@ -36,7 +36,8 @@ class GetNewsJsonData extends AsyncTask<String, Void, List<NewsDetail>> implemen
     private String catergory;//you can't mix this param with the sources param.(business entertainment general health science sports technology)
     private String source;//you can't mix this param with the country or category params
     private String searchQuery;//Keywords or a phrase to search for
-
+    private String sortby = "popularity";
+    private String language = "en";
 
     interface OnDataAvailable{
         void onDataAvailable(List<NewsDetail> newsDetails, DownloadStatus status);
@@ -80,19 +81,25 @@ class GetNewsJsonData extends AsyncTask<String, Void, List<NewsDetail>> implemen
         Log.d(TAG, "createURL: Starts");
 
         if(!searchQuery.equals("")){
+            baseURL = baseURL + "everything";
             Log.d(TAG, "createURL: returns " + Uri.parse(baseURL).buildUpon()
-                    .appendQueryParameter("country", country)
+                    //.appendQueryParameter("country", country)//currently not supported with everything endpoint
                     .appendQueryParameter("q", searchQuery)
+                    .appendQueryParameter("sortby", sortby)
+                    .appendQueryParameter("language", language)
                     .appendQueryParameter("apiKey", apiKey)
                     .build().toString());
 
             return Uri.parse(baseURL).buildUpon()
-                    .appendQueryParameter("country", country)
+                    //.appendQueryParameter("country", country)//currently not supported with everything endpoint
                     .appendQueryParameter("q", searchQuery)
+                    .appendQueryParameter("sortby", sortby)
+                    .appendQueryParameter("language", language)
                     .appendQueryParameter("apiKey", apiKey)
                     .build().toString();//.build() = constructs a uri with current attributes
         }
         else{
+            baseURL = baseURL + "top-headlines";
             Log.d(TAG, "createURL: THERE IS NO QUERY");
             Log.d(TAG, "createURL: returns " + Uri.parse(baseURL).buildUpon()
                     .appendQueryParameter("country", country)
@@ -106,7 +113,6 @@ class GetNewsJsonData extends AsyncTask<String, Void, List<NewsDetail>> implemen
 
 
     }
-
 
     //callback from GetRawData, when data download is complete
     //here is where List<NewsDetail> will be populated

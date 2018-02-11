@@ -33,7 +33,7 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.NewsD
 
         public NewsDetailViewHolder(View viewForRecycler) {//itemView is the inflatedLayout
             super(viewForRecycler);
-            Log.d(TAG, "FlickrImageViewHolder: Constructor called");
+            Log.d(TAG, "NewsImageViewHolder: Constructor called");
             this.outlet = (TextView) viewForRecycler.findViewById(R.id.outlet);
             this.title = (TextView) viewForRecycler.findViewById(R.id.title);
             this.datePublished = (TextView) viewForRecycler.findViewById(R.id.datePublished);
