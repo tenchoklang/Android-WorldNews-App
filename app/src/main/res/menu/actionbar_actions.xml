@@ -11,7 +11,7 @@
 
 
     <item
-        android:id="@+id/search"
+        android:id="@+id/searchIcon"
         android:icon="@drawable/ic_search_white_24dp"
         android:title="Item"
         app:showAsAction="always" />

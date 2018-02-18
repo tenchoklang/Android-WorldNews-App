@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
 
 
     static final String SEARCH_QUERY = "SEARCH_QUERY";//used as the "key" for shared preferences
-    static boolean scroll_down;
     private static final String TAG = "MainActivity";
     private RecyclerViewAdapter recyclerViewAdapter;
 
@@ -47,30 +46,30 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
         recyclerView.setAdapter(recyclerViewAdapter);
 
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (scroll_down) {
-                    getSupportActionBar().hide();
-                } else {
-                    getSupportActionBar().show();
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 70) {
-                    //scroll down
-                    scroll_down = true;
-
-                } else if (dy < -5) {
-                    //scroll up
-                    scroll_down = false;
-                }
-            }
-        });
+//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                if (scroll_down) {
+//                    getSupportActionBar().hide();
+//                } else {
+//                    getSupportActionBar().show();
+//                }
+//            }
+//
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                if (dy > 70) {
+//                    //scroll down
+//                    scroll_down = true;
+//
+//                } else if (dy < -5) {
+//                    //scroll up
+//                    scroll_down = false;
+//                }
+//            }
+//        });
 
 
         //https://www.nytimes.com/2018/01/26/us/politics/trump-davos-speech-fact-check.html
@@ -125,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.search:
+            case R.id.searchIcon:
                 Log.d(TAG, "onOptionsItemSelected: App bar search clicked");
                 Intent intent = new Intent(this, SearchActivity.class);
                 startActivity(intent);
@@ -138,6 +137,9 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
         }
     }
 
+
+    //INCLUDING MULTIPLE SOURCES
+    //https://newsapi.org/v2/top-headlines?sources=abc-news,bbc-news&apiKey=6306fbe477654ab8929fa29582a45127
     private void initTabListener(){
         TabLayout tabLayout = findViewById(R.id.tablayout);
 
@@ -151,15 +153,27 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
                         getNewsJsonData = new GetNewsJsonData(MainActivity.this,"https://newsapi.org/v2/", true, "us");
                         getNewsJsonData.execute("");
                         break;
-                    case 1:
+                    case 1://trump
                         getNewsJsonData = new GetNewsJsonData(MainActivity.this,"https://newsapi.org/v2/", true, "us");
                         getNewsJsonData.execute(tab.getText().toString());
                         break;
-                    case 2://headlines
+                    case 2://politics
                         getNewsJsonData = new GetNewsJsonData(MainActivity.this,"https://newsapi.org/v2/", true, "us");
                         getNewsJsonData.execute(tab.getText().toString());
                         break;
-                    case 3:
+                    case 3://sports
+                        getNewsJsonData = new GetNewsJsonData(MainActivity.this,"https://newsapi.org/v2/", true, "us");
+                        getNewsJsonData.execute(tab.getText().toString());
+                        break;
+                    case 4://movies
+                        getNewsJsonData = new GetNewsJsonData(MainActivity.this,"https://newsapi.org/v2/", true, "us");
+                        getNewsJsonData.execute(tab.getText().toString());
+                        break;
+                    case 5://celebrities
+                        getNewsJsonData = new GetNewsJsonData(MainActivity.this,"https://newsapi.org/v2/", true, "us");
+                        getNewsJsonData.execute(tab.getText().toString());
+                        break;
+                    case 6://random
                         getNewsJsonData = new GetNewsJsonData(MainActivity.this,"https://newsapi.org/v2/", true, "us");
                         getNewsJsonData.execute(tab.getText().toString());
                         break;

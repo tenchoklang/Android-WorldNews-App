@@ -80,23 +80,50 @@ class GetNewsJsonData extends AsyncTask<String, Void, List<NewsDetail>> implemen
     private String createURL(boolean mode, String country, String searchQuery){
         Log.d(TAG, "createURL: Starts");
 
-        if(!searchQuery.equals("")){
-            baseURL = baseURL + "everything";
-            Log.d(TAG, "createURL: returns " + Uri.parse(baseURL).buildUpon()
-                    //.appendQueryParameter("country", country)//currently not supported with everything endpoint
-                    .appendQueryParameter("q", searchQuery)
-                    .appendQueryParameter("sortby", sortby)
-                    .appendQueryParameter("language", language)
-                    .appendQueryParameter("apiKey", apiKey)
-                    .build().toString());
+        String sources = null;
 
-            return Uri.parse(baseURL).buildUpon()
-                    //.appendQueryParameter("country", country)//currently not supported with everything endpoint
-                    .appendQueryParameter("q", searchQuery)
-                    .appendQueryParameter("sortby", sortby)
-                    .appendQueryParameter("language", language)
-                    .appendQueryParameter("apiKey", apiKey)
-                    .build().toString();//.build() = constructs a uri with current attributes
+        if(!searchQuery.equals("")){
+
+            if(searchQuery.equalsIgnoreCase("trump")){
+                //https://newsapi.org/v2/top-headlines?sources=the-new-york-times,abc-news,bbc-news,cnn,cbs-news&q=trump&apiKey=6306fbe477654ab8929fa29582a45127
+                baseURL = baseURL + "top-headlines";
+                sources = "the-new-york-times,abc-news,bbc-news,cnn,cbs-news";
+                return Uri.parse(baseURL).buildUpon()
+                        .appendQueryParameter("sources", sources)
+                        .appendQueryParameter("q",searchQuery )
+                        .appendQueryParameter("apiKey", apiKey)
+                        .build().toString();
+            } else if(searchQuery.equalsIgnoreCase("sports")
+                    || searchQuery.equalsIgnoreCase("entertainment")
+                    || searchQuery.equalsIgnoreCase("science")
+                    || searchQuery.equalsIgnoreCase("gaming")
+                    || searchQuery.equalsIgnoreCase("business")){
+                baseURL = baseURL + "top-headlines";
+                if(searchQuery.equalsIgnoreCase("business")){
+                    sources = "bloomberg,business-insider,fortune,the-economist";
+                }else if(searchQuery.equalsIgnoreCase("sports")){
+                    sources = "bbc-sport,espn,bbc-sport,four-four-two,nfl-news";
+                }else if(searchQuery.equalsIgnoreCase("entertainment")){
+                    sources = "the-lad-bible,mashable,entertainment-weekly,buzzfeed,mtv-news";
+                }else if(searchQuery.equalsIgnoreCase("science")){
+                    sources = "national-geographic,engadget,the-verge,TechCrunch,wired";
+                }else if(searchQuery.equalsIgnoreCase("gaming")){
+                    sources = "polygon,ign";
+                }
+                return Uri.parse(baseURL).buildUpon()
+                        .appendQueryParameter("sources", sources)
+                        .appendQueryParameter("apiKey", apiKey)
+                        .build().toString();
+            }else{
+                baseURL = baseURL + "everything";
+                return Uri.parse(baseURL).buildUpon()
+                        //.appendQueryParameter("country", country)//currently not supported with everything endpoint
+                        .appendQueryParameter("q", searchQuery)
+                        .appendQueryParameter("sortby", sortby)
+                        .appendQueryParameter("language", language)
+                        .appendQueryParameter("apiKey", apiKey)
+                        .build().toString();//.build() = constructs a uri with current attributes
+            }
         }
         else{
             baseURL = baseURL + "top-headlines";

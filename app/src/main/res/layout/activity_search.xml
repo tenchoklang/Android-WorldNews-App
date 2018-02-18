@@ -16,17 +16,77 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:contentInsetLeft="0dp"
+            android:contentInsetStart="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            android:contentInsetRight="0dp"
+            android:contentInsetEnd="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetEnd="0dp">
 
-        <!--<android.support.design.widget.CollapsingToolbarLayout-->
-        <!--android:id="@+id/collapsingToolbar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="?attr/actionBarSize"-->
-        <!--android:background="?attr/colorPrimary"-->
-        <!--app:layout_scrollFlags="scroll|enterAlways"-->
-        <!--app:popupTheme="@style/AppTheme.PopupOverlay" />-->
+
+            <com.mancj.materialsearchbar.MaterialSearchBar
+                android:id="@+id/searchBar"
+                style="@style/MaterialSearchBarLight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                app:mt_hint="Custom hint"
+                app:mt_maxSuggestionsCount="10"
+                app:mt_speechMode="true" />
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--tools:context="com.android.tenchoklang.worldnews.SearchActivity">-->
+
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:theme="@style/AppTheme.AppBarOverlay">-->
+
+        <!--<android.support.v7.widget.Toolbar-->
+            <!--android:id="@+id/toolbar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="?attr/actionBarSize"-->
+            <!--android:background="?attr/colorPrimary"-->
+            <!--app:popupTheme="@style/AppTheme.PopupOverlay" />-->
+
+        <!--&lt;!&ndash;<android.support.design.widget.CollapsingToolbarLayout&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/collapsingToolbar"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="?attr/actionBarSize"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:background="?attr/colorPrimary"&ndash;&gt;-->
+        <!--&lt;!&ndash;app:layout_scrollFlags="scroll|enterAlways"&ndash;&gt;-->
+        <!--&lt;!&ndash;app:popupTheme="@style/AppTheme.PopupOverlay" />&ndash;&gt;-->
+
+    <!--</android.support.design.widget.AppBarLayout>-->
+
+
+<!--</android.support.design.widget.CoordinatorLayout>-->

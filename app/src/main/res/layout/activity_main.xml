@@ -23,8 +23,10 @@
             android:id="@+id/tablayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:tabIndicatorColor="@color/white"
             app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/tab_selected"
+            app:tabTextAppearance="@style/MineCustomTabText"
             app:tabTextColor="@color/tab_selector">
 
             <android.support.design.widget.TabItem
@@ -40,10 +42,10 @@
                 android:text="Trump" />
 
             <android.support.design.widget.TabItem
-                android:id="@+id/politics"
+                android:id="@+id/business"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Politics" />
+                android:text="business" />
 
             <android.support.design.widget.TabItem
                 android:id="@+id/sports"
@@ -52,24 +54,23 @@
                 android:text="Sports" />
 
             <android.support.design.widget.TabItem
-                android:id="@+id/movies"
+                android:id="@+id/entertainment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Movies" />
+                android:text="entertainment" />
 
             <android.support.design.widget.TabItem
-                android:id="@+id/celebrities"
+                android:id="@+id/science"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Celebrity" />
+                android:text="science" />
 
             <android.support.design.widget.TabItem
-                android:id="@+id/random"
+                android:id="@+id/gaming"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Random" />
+                android:text="gaming" />
         </android.support.design.widget.TabLayout>
-
 
     </android.support.design.widget.AppBarLayout>
 
