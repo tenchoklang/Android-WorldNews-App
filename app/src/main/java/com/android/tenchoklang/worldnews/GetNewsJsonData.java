@@ -116,6 +116,12 @@ class GetNewsJsonData extends AsyncTask<String, Void, List<NewsDetail>> implemen
                         .build().toString();
             }else{
                 baseURL = baseURL + "everything";
+                Log.d(TAG, "createURL: created URL " + Uri.parse(baseURL).buildUpon()
+                        .appendQueryParameter("q", searchQuery)
+                        .appendQueryParameter("sortby", sortby)
+                        .appendQueryParameter("language", language)
+                        .appendQueryParameter("apiKey", apiKey)
+                        .build().toString());
                 return Uri.parse(baseURL).buildUpon()
                         //.appendQueryParameter("country", country)//currently not supported with everything endpoint
                         .appendQueryParameter("q", searchQuery)

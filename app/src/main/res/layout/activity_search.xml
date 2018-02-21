@@ -27,15 +27,15 @@
             app:contentInsetEnd="0dp">
 
 
-            <com.mancj.materialsearchbar.MaterialSearchBar
-                android:id="@+id/searchBar"
-                style="@style/MaterialSearchBarLight"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                app:mt_hint="Custom hint"
-                app:mt_maxSuggestionsCount="10"
-                app:mt_speechMode="true" />
+            <!--<com.mancj.materialsearchbar.MaterialSearchBar-->
+                <!--android:id="@+id/searchBar"-->
+                <!--style="@style/MaterialSearchBarLight"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="4dp"-->
+                <!--app:mt_hint="Custom hint"-->
+                <!--app:mt_maxSuggestionsCount="10"-->
+                <!--app:mt_speechMode="true" />-->
 
         </android.support.v7.widget.Toolbar>
 

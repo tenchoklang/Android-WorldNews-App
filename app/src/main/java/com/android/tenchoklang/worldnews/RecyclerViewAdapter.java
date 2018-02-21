@@ -73,9 +73,19 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.NewsD
         holder.outlet.setText(newNewsDetail.getOutlet());
         holder.title.setText(newNewsDetail.getTitle());
         holder.datePublished.setText("Date: " +newNewsDetail.getDatePublished());
-        Picasso.with(context).load(newNewsDetail.getUrlToImage()).placeholder(R.drawable.placeholder).into(holder.thumbnail);
+
+        //This if else statement is needed becase typically newsapi json returns a null if there is no imageurl
+        //but on rare occasion it returns a "" which cased the app to crash, so this a safeguard for that
+        //if json returns a "" (empty string url) then set the place holder image
+        //else load the palceholder image url
+        if(newNewsDetail.getUrlToImage().equals("")){
+            holder.thumbnail.setImageResource(R.drawable.placeholder);
+        }else{
+            Picasso.with(context).load(newNewsDetail.getUrlToImage()).placeholder(R.drawable.placeholder).into(holder.thumbnail);
+        }
         holder.description.setText(newNewsDetail.getDescription());
 
+        Log.d(TAG, "onBindViewHolder: Image url = " + newNewsDetail.getUrlToImage());
         Log.d(TAG, "onBindViewHolder: " + newNewsDetail.getTitle() + "-->" + position);
 
     }
