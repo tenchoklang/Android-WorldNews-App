@@ -4,8 +4,10 @@ package com.android.tenchoklang.worldnews;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,12 +17,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements GetNewsJsonData.OnDataAvailable {
+public class MainActivity extends AppCompatActivity implements GetNewsJsonData.OnDataAvailable,
+                                                                RecyclerItemClickListener.OnRecyclerClickListener{
 
 
     static final String SEARCH_QUERY = "SEARCH_QUERY";//used as the "key" for shared preferences
@@ -45,34 +49,8 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
         recyclerViewAdapter = new RecyclerViewAdapter(this, new ArrayList<NewsDetail>());
         recyclerView.setAdapter(recyclerViewAdapter);
 
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, recyclerView, this));
 
-//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                if (scroll_down) {
-//                    getSupportActionBar().hide();
-//                } else {
-//                    getSupportActionBar().show();
-//                }
-//            }
-//
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                if (dy > 70) {
-//                    //scroll down
-//                    scroll_down = true;
-//
-//                } else if (dy < -5) {
-//                    //scroll up
-//                    scroll_down = false;
-//                }
-//            }
-//        });
-
-
-        //https://www.nytimes.com/2018/01/26/us/politics/trump-davos-speech-fact-check.html
     }
 
     //these methods are put into the onResume because when the activity returns back to this screen
@@ -177,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
                         getNewsJsonData = new GetNewsJsonData(MainActivity.this,"https://newsapi.org/v2/", true, "us");
                         getNewsJsonData.execute(tab.getText().toString());
                         break;
-
                 }
 
             }
@@ -194,5 +171,33 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
         });
     }
 
+    @Override
+    public void onItemClick(View view, int position) {
+        Log.d(TAG, "onItemClick: Starts " + recyclerViewAdapter.getNews(position).getUrl());
+
+//        String url = recyclerViewAdapter.getNews(position).getUrl();
+//        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+//        CustomTabsIntent customTabsIntent = builder.build();
+//        customTabsIntent.launchUrl(MainActivity.this, Uri.parse(url));
+//
+//        Toast.makeText(MainActivity.this, "normal tap at position " + position, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemLongClick(View view, int position) {
+        Log.d(TAG, "onItemLongClick: Starts");
+        Toast.makeText(MainActivity.this, "long click at position " + position, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemDoubleClick(View view, int position) {
+        Log.d(TAG, "onItemDoubleClick: Starts");
+        String url = recyclerViewAdapter.getNews(position).getUrl();
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(MainActivity.this, Uri.parse(url));
+
+        Toast.makeText(MainActivity.this, "double tap at position " + position, Toast.LENGTH_SHORT).show();
+    }
 }
 

@@ -79,7 +79,8 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.NewsD
         //if json returns a "" (empty string url) then set the place holder image
         //else load the palceholder image url
         if(newNewsDetail.getUrlToImage().equals("")){
-            holder.thumbnail.setImageResource(R.drawable.placeholder);
+            //holder.thumbnail.setImageResource(R.drawable.placeholder);
+            Log.d(TAG, "onBindViewHolder: " + "#####################NO IMAGE URL#######################");
         }else{
             Picasso.with(context).load(newNewsDetail.getUrlToImage()).placeholder(R.drawable.placeholder).into(holder.thumbnail);
         }
@@ -95,6 +96,10 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.NewsD
     public int getItemCount() {
         Log.d(TAG, "getItemCount: Called");
         return (newsDetailList != null && newsDetailList.size() !=0) ? newsDetailList.size(): 0;
+    }
+
+    public NewsDetail getNews(int position){
+        return ((newsDetailList != null) && (newsDetailList.size() != 0) ? newsDetailList.get(position) : null);
     }
 
     //this method will be called once the download is finished, from the MainActivity
