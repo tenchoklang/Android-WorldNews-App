@@ -14,10 +14,25 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="60dp"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:contentInsetStart="0dp"
+            app:layout_collapseMode="pin">
+
+            <com.mancj.materialsearchbar.MaterialSearchBar
+                android:id="@+id/searchBar"
+                style="@style/MaterialSearchBarLight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                app:mt_hint="Custom hint"
+                app:mt_maxSuggestionsCount="10"
+                app:mt_speechMode="true" />
+
+        </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tablayout"

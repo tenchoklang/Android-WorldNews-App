@@ -66,6 +66,7 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.NewsD
     //Viewholder widget
     @Override
     public void onBindViewHolder(NewsDetailViewHolder holder, int position) {
+
         //called by the layout manager when it wants new data in a recycled view
         Log.d(TAG, "onBindViewHolder: New View Data Requested");
         NewsDetail  newNewsDetail= newsDetailList.get(position);

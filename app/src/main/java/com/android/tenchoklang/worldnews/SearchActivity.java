@@ -12,9 +12,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.widget.SearchView;
 
+/*
+TO ENABLE BACK THE DEFAULT SEARCH VIEW UNCOMMENT THE
+1) onCreateOptionsMenu()
+2)
+ */
+
 public class SearchActivity extends AppCompatActivity {
 
     private static final String TAG = "SearchActivity";
+    private static final String MY_GLOBAL_PREFS = "my_global_prefs";
+
     private SearchView searchView;
 
     @Override
@@ -28,6 +36,8 @@ public class SearchActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //handleIntent(getIntent());
     }
+
+    //ENABLE THIS FOR THE SEARCH VIEW
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -45,6 +55,8 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.d(TAG, "onQueryTextSubmit: Called");
+                //the name of the preference set where you want to save the data
+
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 sharedPreferences.edit().putString(MainActivity.SEARCH_QUERY, query).apply();
                 searchView.clearFocus();//solves problem with submitting query by keyboards enter key
@@ -59,6 +71,7 @@ public class SearchActivity extends AppCompatActivity {
         });
         return true;
     }
+
 
 //    @Override
 //    protected void onNewIntent(Intent intent) {

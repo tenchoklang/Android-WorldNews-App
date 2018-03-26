@@ -2,7 +2,8 @@
 
 package com.android.tenchoklang.worldnews;
 
-import android.content.Intent;
+import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,22 +15,33 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+
+import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+TO ENABLE BACK THE DEFAULT SEARCH VIEW UNCOMMENT THE
+1) onCreateOptionsMenu()
+2) onOptionsItemSelected()
+ */
+
+
 public class MainActivity extends AppCompatActivity implements GetNewsJsonData.OnDataAvailable,
-                                                                RecyclerItemClickListener.OnRecyclerClickListener{
+                                                                RecyclerItemClickListener.OnRecyclerClickListener,
+                                                                MaterialSearchBar.OnSearchActionListener{
 
 
     static final String SEARCH_QUERY = "SEARCH_QUERY";//used as the "key" for shared preferences
     private static final String TAG = "MainActivity";
     private RecyclerViewAdapter recyclerViewAdapter;
+    private MaterialSearchBar searchBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +52,29 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        searchBar = (MaterialSearchBar) findViewById(R.id.searchBar);
+        searchBar.setOnSearchActionListener(this);
+        searchBar.setPlaceHolder("SEARCH");
+        searchBar.setHint("Enter What to Search");
+        searchBar.setCardViewElevation(10);
 
         initTabListener();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        //This listener hides the keyboard when a user tries to scroll recycler view
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+                return false;
+            }
+        });
+
+
         //recyler view doesnt take care of handling the layouts, thats done by the layoutManager
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -55,12 +87,15 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
 
     //these methods are put into the onResume because when the activity returns back to this screen
     //onResume will be called, not onCreate
+    //If we put these codes in the on create then the code in the onCreate will not be executed
     @Override
     protected void onResume() {
         super.onResume();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String queryResult = sharedPreferences.getString(MainActivity.SEARCH_QUERY, "");//if no values return "" empty string
 
+        Log.d(TAG, "onResume: &*)&&^&!@*#^)@!&^");
+        
         GetNewsJsonData getNewsJsonData;
         getNewsJsonData = new GetNewsJsonData(this,"https://newsapi.org/v2/", true, "us");
         getNewsJsonData.execute(queryResult);
@@ -90,7 +125,8 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
     }
 
 
-    @Override
+    /*
+     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actionbar_actions, menu);
@@ -114,7 +150,28 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
                 return super.onOptionsItemSelected(item);
         }
     }
+     */
 
+
+
+    @Override
+    public void onSearchStateChanged(boolean enabled) {
+
+    }
+
+    @Override
+    public void onSearchConfirmed(CharSequence text) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        sharedPreferences.edit().putString(MainActivity.SEARCH_QUERY, text.toString()).apply();
+        Log.d(TAG, "onSearchConfirmed: " + text);
+        hideSoftKeyboard(this);
+        onResume();
+    }
+
+    @Override
+    public void onButtonClicked(int buttonCode) {
+
+    }
 
     //INCLUDING MULTIPLE SOURCES
     //https://newsapi.org/v2/top-headlines?sources=abc-news,bbc-news&apiKey=6306fbe477654ab8929fa29582a45127
@@ -198,6 +255,16 @@ public class MainActivity extends AppCompatActivity implements GetNewsJsonData.O
         customTabsIntent.launchUrl(MainActivity.this, Uri.parse(url));
 
         Toast.makeText(MainActivity.this, "double tap at position " + position, Toast.LENGTH_SHORT).show();
+    }
+
+
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
     }
 }
 
