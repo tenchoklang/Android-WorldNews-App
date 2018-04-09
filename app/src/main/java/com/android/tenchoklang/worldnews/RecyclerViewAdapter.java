@@ -104,8 +104,10 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.NewsD
     }
 
     //this method will be called once the download is finished, from the MainActivity
-    public void loadNewData(List<NewsDetail> newsDetailList){
+    public void loadNewData(List<NewsDetail> newsDetailList) {
         this.newsDetailList = newsDetailList;
         notifyDataSetChanged();//notifies the recycler that the data has changed
     }
+    public List<NewsDetail> getNewsDetailList(){return newsDetailList;}
+
 }
